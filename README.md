@@ -113,8 +113,8 @@ The library uses the Strategy pattern to handle different LLM providers:
 | Provider | Status | Features |
 |----------|--------|----------|
 | Anthropic Bedrock | ✅ | Full support including tools and multimodal |
-| Hugging Face | ✅ | Text generation with chat templates |
-| OpenAI GPT | 🚧 | Planned (native support) |
+| Hugging Face | ✅ | Text generation with chat templates and multimodal for all models available on Hugging Face |
+| Nova Bedrock | 🚧 | Planned (native support) |
 
 ## 📚 API Reference
 
