@@ -52,4 +52,11 @@ export class CustomModelStrategy implements InferenceStrategy {
       images: imageUrls
     };
   }
+
+  translateFromBedrock() {
+    throw new Error("Method not implemented.");
+  }
+  translateFromBedrockStream() {
+    throw new Error("Method not implemented.");
+  }
 }

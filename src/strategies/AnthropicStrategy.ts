@@ -52,6 +52,13 @@ export class AnthropicStrategy implements InferenceStrategy {
     return body;
   }
 
+  translateFromBedrock() {
+    throw new Error("Method not implemented.");
+  }
+  translateFromBedrockStream() {
+    throw new Error("Method not implemented.");
+  }
+
   private parseOpenAIMessageToNativeMessage(message: OpenAIMessage) {
     const messageHandlers = {
       tool: () => ({
