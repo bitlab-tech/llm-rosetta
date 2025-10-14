@@ -21,12 +21,21 @@ export class AnthropicStrategy implements InferenceStrategy {
     if (!messages) throw new Error("Request message is empty");
 
     // system msg
-    let systemMsg = '';
-    if (systemInstruction) systemMsg += systemInstruction + '\n';
-    const sysMessage =
+    const requestSystemMessage =
       messages.findLast((m: OpenAIMessage) => m.role === ConversationRole.SYSTEM);
-    if (sysMessage) {
-      sysMessage.content = systemMsg + sysMessage.content;
+
+    const combinedSystemMessage =
+      this.extractSystemMessage(systemInstruction, requestSystemMessage);
+
+    if (combinedSystemMessage) {
+      if (requestSystemMessage) {
+        requestSystemMessage.content = combinedSystemMessage;
+      } else {
+        messages.push({
+          role: ConversationRole.SYSTEM,
+          content: combinedSystemMessage
+        });
+      }
     }
 
     // user msg
@@ -45,7 +54,7 @@ export class AnthropicStrategy implements InferenceStrategy {
           : undefined
         : undefined,
       top_p: top_p ? (top_p < 1 ? top_p : undefined) : undefined,
-      ...(systemMsg && { system: systemMsg }),
+      ...(combinedSystemMessage && { system: combinedSystemMessage }),
       ...this.buildToolsConfig(tools, tool_choice),
     };
 
@@ -57,6 +66,15 @@ export class AnthropicStrategy implements InferenceStrategy {
   }
   translateFromBedrockStream() {
     throw new Error("Method not implemented.");
+  }
+
+  extractSystemMessage(defaultSystemInstruction: string | undefined, requestSystemMessage: OpenAIMessage | undefined): string {
+    let combinedSystemMessage = '';
+    if (defaultSystemInstruction) combinedSystemMessage += defaultSystemInstruction + '\n';
+    if (requestSystemMessage) {
+      combinedSystemMessage += requestSystemMessage.content;
+    }
+    return combinedSystemMessage;
   }
 
   private parseOpenAIMessageToNativeMessage(message: OpenAIMessage) {

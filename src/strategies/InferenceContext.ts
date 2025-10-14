@@ -2,10 +2,11 @@ import { LLM } from "../models/LLM";
 import { TranslationParamsInput } from "../models/TranslationParamsInput";
 import { AnthropicStrategy } from "./AnthropicStrategy";
 import { CustomModelStrategy } from "./CustomModelStrategy";
+import { GemmaStrategy } from "./GemmaStrategy";
 import { InferenceStrategy } from "./InferenceStrategy";
 
 export class InferenceContext {
-  private inferenceStrategy: InferenceStrategy | null;
+  private inferenceStrategy: InferenceStrategy;
 
   private constructor(model: LLM) {
     switch(model) {
@@ -15,9 +16,10 @@ export class InferenceContext {
       case LLM.CUSTOM:
         this.inferenceStrategy = new CustomModelStrategy();
         return;
+      case LLM.GEMMA:
+        this.inferenceStrategy = new GemmaStrategy();
       default:
-        this.inferenceStrategy = null;
-        return;
+        throw new Error(`No strategy found for ${model}.`);
     }
   }
 

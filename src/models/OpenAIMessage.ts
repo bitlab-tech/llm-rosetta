@@ -11,6 +11,7 @@ export interface OpenAIMessage {
 
 export interface OpenAIMessageContent {
   type: string;
+  image?: string;
   image_url?: { url: string };
 }
 
