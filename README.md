@@ -114,6 +114,7 @@ The library uses the Strategy pattern to handle different LLM providers:
 |----------|--------|----------|
 | Anthropic Bedrock | ✅ | Full support including tools and multimodal |
 | Hugging Face | ✅ | Text generation with chat templates and multimodal for all models available on Hugging Face |
+| Google Gemma Family | 🚧 | In progress - currently supporting text generation with chat templates and multimodal - no function calling (tool calling) supported yet
 | Nova Bedrock | 🚧 | Planned (native support) |
 
 ## 📚 API Reference
