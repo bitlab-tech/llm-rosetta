@@ -1,5 +1,6 @@
 import { AnthropicStrategy, CustomModelStrategy, GemmaStrategy, InferenceStrategy } from ".";
 import { LLM, RequestTranslationParamsInput, ResponseStreamTranslationParamsInput } from "../models";
+import { LingshuStrategy } from "./LingshuStrategy";
 
 export class InferenceContext {
   private inferenceStrategy: InferenceStrategy;
@@ -14,6 +15,10 @@ export class InferenceContext {
         return;
       case LLM.GEMMA:
         this.inferenceStrategy = new GemmaStrategy();
+        return;
+      case LLM.LINGSHU:
+        this.inferenceStrategy = new LingshuStrategy();
+        return;
       default:
         throw new Error(`No strategy found for ${model}.`);
     }

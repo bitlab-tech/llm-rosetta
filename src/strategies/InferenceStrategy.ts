@@ -1,11 +1,12 @@
 import {
   OpenAIChunk,
+  RequestToProvider,
   RequestTranslationParamsInput,
   ResponseStreamTranslationParamsInput
 } from "../models";
 
 export interface InferenceStrategy {
-  translateFromOpenAI(params: RequestTranslationParamsInput): any;
+  translateFromOpenAI(params: RequestTranslationParamsInput): Promise<RequestToProvider>;
   translateFromResponse(): any;
   translateFromResponseStreamChunk(
     params: ResponseStreamTranslationParamsInput

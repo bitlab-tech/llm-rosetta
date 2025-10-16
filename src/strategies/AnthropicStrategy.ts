@@ -1,8 +1,13 @@
-import { RequestTranslationParamsInput, OpenAIMessage, ConversationRole } from "../models";
+import {
+  RequestTranslationParamsInput,
+  OpenAIMessage,
+  ConversationRole,
+  RequestToProvider
+} from "../models";
 import { AbstractInferenceStrategy } from "./AbstractInferenceStrategy";
 
 export class AnthropicStrategy extends AbstractInferenceStrategy {
-  translateFromOpenAI(params: RequestTranslationParamsInput): object {
+  translateFromOpenAI(params: RequestTranslationParamsInput): Promise<RequestToProvider> {
     // Get params
     const { requestBody, systemInstruction } = params;
 

@@ -4,11 +4,14 @@ import {
   RequestTranslationParamsInput,
   OpenAIMessage,
   ConversationRole,
-  OpenAIContentType
+  OpenAIContentType,
+  RequestToProvider
 } from "../models";
 
 export class CustomModelStrategy extends AbstractCustomModelStrategy {
-  async translateFromOpenAI(params: RequestTranslationParamsInput) {
+  async translateFromOpenAI(
+    params: RequestTranslationParamsInput
+  ): Promise<RequestToProvider> {
     // validate model id
     const { requestBody, huggingfaceModelId, systemInstruction } = params;
     if (!huggingfaceModelId)

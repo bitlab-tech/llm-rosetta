@@ -118,14 +118,14 @@ classDiagram
 
   class InferenceStrategy {
     <<interface>>
-    +translateFromOpenAI(params: RequestTranslationParamsInput): any
+    +translateFromOpenAI(params: RequestTranslationParamsInput): Promise<RequestToProvider>;
     +translateFromResponse(): any
     +translateFromResponseStreamChunk(params: ResponseStreamTranslationParamsInput): Promise<OpenAIChunk>
   }
 
   class AbstractInferenceStrategy {
     <<abstract>>
-    +translateFromOpenAI(params: RequestTranslationParamsInput): any
+    +translateFromOpenAI(params: RequestTranslationParamsInput): Promise<RequestToProvider>;
     +translateFromResponse(): any
     +translateFromResponseStreamChunk(params: ResponseStreamTranslationParamsInput): Promise<OpenAIChunk>
     +convertChunkToOpenAI(...)
@@ -135,7 +135,7 @@ classDiagram
 
   class AbstractCustomModelStrategy {
     <<abstract>>
-    +translateFromOpenAI(params: RequestTranslationParamsInput): any
+    +translateFromOpenAI(params: RequestTranslationParamsInput): Promise<RequestToProvider>;
     +extractSystemMessage(defaultSystemInstruction, requestSystemMessage): string
     +processImages(messages: OpenAIMessage[]): string[]
     +applyChatTemplate(huggingfaceModelId, messages): Promise<...>
@@ -144,7 +144,7 @@ classDiagram
   AbstractInferenceStrategy <|-- AbstractCustomModelStrategy
 
   class AnthropicStrategy {
-    +translateFromOpenAI(params): object
+    +translateFromOpenAI(params: RequestTranslationParamsInput): Promise<RequestToProvider>;
     -parseOpenAIMessageToNativeMessage(message)
     -convertMessageContent(content)
     -buildToolsConfig(tools, tool_choice)
@@ -165,7 +165,12 @@ classDiagram
     +applyChatTemplate(huggingfaceModelId, messages): Promise<...>
   }
 
+  class LingshuStrategy {
+    +translateFromOpenAI(params): Promise<RequestToProvider>
+  }
+
   CustomModelStrategy <|-- GemmaStrategy
+  CustomModelStrategy <|-- LingshuStrategy
 
   class InferenceContext {
     -inferenceStrategy: InferenceStrategy
@@ -183,6 +188,7 @@ classDiagram
     GPT
     CUSTOM
     GEMMA
+    LINGSHU
   }
 ```
 
@@ -192,7 +198,8 @@ classDiagram
 |----------|--------|----------|
 | Anthropic Bedrock | ✅ | Full support including tools and multimodal |
 | Hugging Face | ✅ | Text generation with chat templates and multimodal for all models available on Hugging Face |
-| Google Gemma Family | 🚧 | In progress - currently supporting text generation with chat templates and multimodal - no function calling (tool calling) supported yet
+| Lingshu | ✅ | Custom image processing for multimodal models with chat templates - no function calling (tool calling) supported |
+| Google Gemma Family | 🚧 | In progress - currently supporting text generation with chat templates and multimodal - no function calling (tool calling) supported yet |
 | Nova Bedrock | 🚧 | Planned (native support) |
 
 ## 🤝 Contributing
