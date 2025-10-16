@@ -1,6 +1,4 @@
-import { OpenAIMessage } from "./OpenAIMessage";
-import { OpenAITool } from "./OpenAITool";
-import { OpenAIToolChoice } from "./OpenAIToolChoice";
+import { OpenAIMessage, OpenAITool, OpenAIToolChoice } from ".";
 
 export interface OpenAIRequest {
   model: string;

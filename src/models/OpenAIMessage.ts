@@ -1,5 +1,4 @@
-import { ConversationRole } from "./ConversationRole";
-import { OpenAITool } from "./OpenAITool";
+import { ConversationRole, OpenAITool } from ".";
 
 export interface OpenAIMessage {
   role: ConversationRole;
@@ -15,6 +14,8 @@ export interface OpenAIMessageContent {
   image_url?: { url: string };
 }
 
-export function instanceOfOpenAIMessageContent(object: any): object is OpenAIMessageContent {
+export function instanceOfOpenAIMessageContent(
+  object: any
+): object is OpenAIMessageContent {
   return 'type' in object;
 }

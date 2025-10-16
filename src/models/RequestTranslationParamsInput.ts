@@ -1,6 +1,6 @@
-import { OpenAIRequest } from "./OpenAIRequest";
+import { OpenAIRequest } from ".";
 
-export interface TranslationParamsInput {
+export interface RequestTranslationParamsInput {
   requestBody: OpenAIRequest;
   huggingfaceModelId?: string;
   systemInstruction?: string;

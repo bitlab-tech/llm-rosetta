@@ -1,7 +1,13 @@
-import { TranslationParamsInput } from "../models/TranslationParamsInput";
+import {
+  OpenAIChunk,
+  RequestTranslationParamsInput,
+  ResponseStreamTranslationParamsInput
+} from "../models";
 
 export interface InferenceStrategy {
-  translateFromOpenAI(params: TranslationParamsInput): any;
-  translateFromBedrock(): any;
-  translateFromBedrockStream(): any;
+  translateFromOpenAI(params: RequestTranslationParamsInput): any;
+  translateFromResponse(): any;
+  translateFromResponseStreamChunk(
+    params: ResponseStreamTranslationParamsInput
+  ): Promise<OpenAIChunk>;
 }

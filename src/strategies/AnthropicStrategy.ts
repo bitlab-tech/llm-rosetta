@@ -1,10 +1,8 @@
-import { ConversationRole } from "../models/ConversationRole";
-import { OpenAIMessage } from "../models/OpenAIMessage";
-import { TranslationParamsInput } from "../models/TranslationParamsInput";
-import { InferenceStrategy } from "./InferenceStrategy";
+import { RequestTranslationParamsInput, OpenAIMessage, ConversationRole } from "../models";
+import { AbstractInferenceStrategy } from "./AbstractInferenceStrategy";
 
-export class AnthropicStrategy implements InferenceStrategy {
-  translateFromOpenAI(params: TranslationParamsInput): object {
+export class AnthropicStrategy extends AbstractInferenceStrategy {
+  translateFromOpenAI(params: RequestTranslationParamsInput): object {
     // Get params
     const { requestBody, systemInstruction } = params;
 
@@ -59,13 +57,6 @@ export class AnthropicStrategy implements InferenceStrategy {
     };
 
     return body;
-  }
-
-  translateFromBedrock() {
-    throw new Error("Method not implemented.");
-  }
-  translateFromBedrockStream() {
-    throw new Error("Method not implemented.");
   }
 
   extractSystemMessage(defaultSystemInstruction: string | undefined, requestSystemMessage: OpenAIMessage | undefined): string {

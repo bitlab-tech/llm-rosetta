@@ -1,7 +1,6 @@
 import { AutoTokenizer, Message } from "@huggingface/transformers";
-import { CustomModelStrategy } from "./CustomModelStrategy";
-import { OpenAIMessage } from "../models/OpenAIMessage";
-import { OpenAIContentType } from "../models/OpenAIContentType";
+import { CustomModelStrategy } from ".";
+import { OpenAIMessage, OpenAIContentType } from "../models";
 
 export class GemmaStrategy extends CustomModelStrategy {
   // overrides

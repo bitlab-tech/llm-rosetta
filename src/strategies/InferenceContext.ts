@@ -1,9 +1,5 @@
-import { LLM } from "../models/LLM";
-import { TranslationParamsInput } from "../models/TranslationParamsInput";
-import { AnthropicStrategy } from "./AnthropicStrategy";
-import { CustomModelStrategy } from "./CustomModelStrategy";
-import { GemmaStrategy } from "./GemmaStrategy";
-import { InferenceStrategy } from "./InferenceStrategy";
+import { AnthropicStrategy, CustomModelStrategy, GemmaStrategy, InferenceStrategy } from ".";
+import { LLM, RequestTranslationParamsInput, ResponseStreamTranslationParamsInput } from "../models";
 
 export class InferenceContext {
   private inferenceStrategy: InferenceStrategy;
@@ -32,7 +28,13 @@ export class InferenceContext {
     return this;
   }
 
-  public translateFromOpenAI(params: TranslationParamsInput) {
+  public translateFromOpenAI(params: RequestTranslationParamsInput) {
     return this.inferenceStrategy?.translateFromOpenAI(params);
+  }
+
+  public translateFromReponseStreamChunk(
+    params: ResponseStreamTranslationParamsInput
+  ) {
+    return this.inferenceStrategy.translateFromResponseStreamChunk(params);
   }
 }

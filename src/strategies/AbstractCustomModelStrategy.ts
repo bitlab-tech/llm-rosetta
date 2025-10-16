@@ -1,13 +1,10 @@
 import { Tensor } from "@huggingface/transformers";
-import { TranslationParamsInput } from "../models/TranslationParamsInput";
-import { InferenceStrategy } from "./InferenceStrategy";
-import { OpenAIMessage } from "../models/OpenAIMessage";
+import { OpenAIMessage, RequestTranslationParamsInput } from "../models";
+import { AbstractInferenceStrategy } from "./AbstractInferenceStrategy";
 
-export abstract class AbstractCustomModelStrategy implements InferenceStrategy {
-  // Strategy methods
-  abstract translateFromOpenAI(params: TranslationParamsInput): any;
-  abstract translateFromBedrock(): any;
-  abstract translateFromBedrockStream(): any;
+export abstract class AbstractCustomModelStrategy extends AbstractInferenceStrategy {
+  // Strategy method
+  abstract translateFromOpenAI(params: RequestTranslationParamsInput): any;
 
   // Internal methods
   abstract extractSystemMessage(

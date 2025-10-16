@@ -1,12 +1,14 @@
-import { ConversationRole } from "../models/ConversationRole";
-import { OpenAIContentType } from "../models/OpenAIContentType";
-import { OpenAIMessage } from "../models/OpenAIMessage";
-import { TranslationParamsInput } from "../models/TranslationParamsInput";
-import { AbstractCustomModelStrategy } from "./AbstractCustomModelStrategy";
-import { AutoTokenizer } from '@huggingface/transformers';
+import { AutoTokenizer } from "@huggingface/transformers";
+import { AbstractCustomModelStrategy } from ".";
+import {
+  RequestTranslationParamsInput,
+  OpenAIMessage,
+  ConversationRole,
+  OpenAIContentType
+} from "../models";
 
 export class CustomModelStrategy extends AbstractCustomModelStrategy {
-  async translateFromOpenAI(params: TranslationParamsInput) {
+  async translateFromOpenAI(params: RequestTranslationParamsInput) {
     // validate model id
     const { requestBody, huggingfaceModelId, systemInstruction } = params;
     if (!huggingfaceModelId)
@@ -55,13 +57,6 @@ export class CustomModelStrategy extends AbstractCustomModelStrategy {
       top_p,
       images
     };
-  }
-
-  translateFromBedrock() {
-    throw new Error("Method not implemented.");
-  }
-  translateFromBedrockStream() {
-    throw new Error("Method not implemented.");
   }
 
   extractSystemMessage(

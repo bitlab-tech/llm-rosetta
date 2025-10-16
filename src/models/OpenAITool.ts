@@ -1,4 +1,4 @@
-class OpenAIToolFunction {
+export class OpenAIToolFunction {
   name?: string;
   arguments?: string;
 }
