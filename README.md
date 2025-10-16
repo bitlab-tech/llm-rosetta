@@ -108,6 +108,85 @@ The library uses the Strategy pattern to handle different LLM providers:
 - **AnthropicStrategy**: Converts OpenAI requests to Anthropic Bedrock format
 - **CustomModelStrategy**: Converts OpenAI requests to Hugging Face format
 
+### Class Structure
+
+
+
+```mermaid
+classDiagram
+  direction TB
+
+  class InferenceStrategy {
+    <<interface>>
+    +translateFromOpenAI(params: RequestTranslationParamsInput): any
+    +translateFromResponse(): any
+    +translateFromResponseStreamChunk(params: ResponseStreamTranslationParamsInput): Promise<OpenAIChunk>
+  }
+
+  class AbstractInferenceStrategy {
+    <<abstract>>
+    +translateFromOpenAI(params: RequestTranslationParamsInput): any
+    +translateFromResponse(): any
+    +translateFromResponseStreamChunk(params: ResponseStreamTranslationParamsInput): Promise<OpenAIChunk>
+    +convertChunkToOpenAI(...)
+  }
+
+  InferenceStrategy <|.. AbstractInferenceStrategy
+
+  class AbstractCustomModelStrategy {
+    <<abstract>>
+    +translateFromOpenAI(params: RequestTranslationParamsInput): any
+    +extractSystemMessage(defaultSystemInstruction, requestSystemMessage): string
+    +processImages(messages: OpenAIMessage[]): string[]
+    +applyChatTemplate(huggingfaceModelId, messages): Promise<...>
+  }
+
+  AbstractInferenceStrategy <|-- AbstractCustomModelStrategy
+
+  class AnthropicStrategy {
+    +translateFromOpenAI(params): object
+    -parseOpenAIMessageToNativeMessage(message)
+    -convertMessageContent(content)
+    -buildToolsConfig(tools, tool_choice)
+    -parseToolContent(message)
+  }
+
+  AbstractCustomModelStrategy <|-- CustomModelStrategy
+  AbstractInferenceStrategy <|-- AnthropicStrategy
+
+  class CustomModelStrategy {
+    +translateFromOpenAI(params): any
+    +extractSystemMessage(...)
+    +processImages(messages): string[]
+    +applyChatTemplate(huggingfaceModelId, messages): Promise<...>
+  }
+
+  class GemmaStrategy {
+    +applyChatTemplate(huggingfaceModelId, messages): Promise<...>
+  }
+
+  CustomModelStrategy <|-- GemmaStrategy
+
+  class InferenceContext {
+    -inferenceStrategy: InferenceStrategy
+    +create(model: LLM): InferenceContext
+    +setStrategy(strategy: InferenceStrategy): InferenceContext
+    +translateFromOpenAI(params: RequestTranslationParamsInput): any
+    +translateFromReponseStreamChunk(params: ResponseStreamTranslationParamsInput)
+  }
+
+  InferenceContext --> InferenceStrategy : uses
+
+  class LLM {
+    <<enum>>
+    ANTHROPIC
+    GPT
+    CUSTOM
+    GEMMA
+  }
+```
+
+
 ### Supported Providers
 
 | Provider | Status | Features |
@@ -177,34 +256,6 @@ interface OpenAIRequest {
   tool_choice?: OpenAIToolChoice | OpenAITool;
   // ... additional OpenAI parameters
 }
-```
-
-## 🔧 Development
-
-### Building
-
-```bash
-npm run build
-```
-
-### Project Structure
-
-```
-src/
-├── models/           # Type definitions and interfaces
-│   ├── ConversationRole.ts
-│   ├── LLM.ts
-│   ├── OpenAIMessage.ts
-│   ├── OpenAIRequest.ts
-│   ├── OpenAITool.ts
-│   ├── OpenAIToolChoice.ts
-│   └── TranslationParamsInput.ts
-├── strategies/       # Translation strategies
-│   ├── AnthropicStrategy.ts
-│   ├── CustomModelStrategy.ts
-│   ├── InferenceContext.ts
-│   └── InferenceStrategy.ts
-└── index.ts         # Main exports
 ```
 
 ## 🤝 Contributing
