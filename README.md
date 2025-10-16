@@ -186,7 +186,6 @@ classDiagram
   }
 ```
 
-
 ### Supported Providers
 
 | Provider | Status | Features |
@@ -195,68 +194,6 @@ classDiagram
 | Hugging Face | ✅ | Text generation with chat templates and multimodal for all models available on Hugging Face |
 | Google Gemma Family | 🚧 | In progress - currently supporting text generation with chat templates and multimodal - no function calling (tool calling) supported yet
 | Nova Bedrock | 🚧 | Planned (native support) |
-
-## 📚 API Reference
-
-### Core Classes
-
-#### `InferenceContext`
-
-Main class for managing translation strategies.
-
-```typescript
-class InferenceContext {
-  static create(model: LLM): InferenceContext
-  setStrategy(strategy: InferenceStrategy): InferenceContext
-  translateFromOpenAI(params: TranslationParamsInput): any
-}
-```
-
-#### Enums
-
-```typescript
-enum LLM {
-  ANTHROPIC = "anthropic",
-  GPT = "gpt", 
-  CUSTOM = "custom"
-}
-
-enum ConversationRole {
-  SYSTEM = 'system',
-  DEVELOPER = 'developer',
-  ASSISTANT = 'assistant',
-  USER = 'user',
-  TOOL = 'tool'
-}
-```
-
-### Interfaces
-
-#### `TranslationParamsInput`
-
-```typescript
-interface TranslationParamsInput {
-  requestBody: OpenAIRequest;
-  huggingfaceModelId?: string;
-  systemInstruction?: string;
-}
-```
-
-#### `OpenAIRequest`
-
-```typescript
-interface OpenAIRequest {
-  model: string;
-  messages: OpenAIMessage[];
-  stream: boolean;
-  temperature?: number;
-  max_tokens?: number;
-  top_p?: number;
-  tools?: object[];
-  tool_choice?: OpenAIToolChoice | OpenAITool;
-  // ... additional OpenAI parameters
-}
-```
 
 ## 🤝 Contributing
 
