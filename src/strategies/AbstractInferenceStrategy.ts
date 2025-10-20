@@ -1,9 +1,11 @@
 import { InferenceStrategy } from ".";
-import { RequestTranslationParamsInput, ResponseStreamTranslationParamsInput } from "../models";
+import { OpenAIRequest, RequestToProvider, RequestTranslationParamsInput, ResponseStreamTranslationParamsInput } from "../models";
 import { OpenAIChunk } from "../models/OpenAIChunk";
 
 export abstract class AbstractInferenceStrategy implements InferenceStrategy {
-  abstract translateFromOpenAI(params: RequestTranslationParamsInput): any;
+  abstract translateFromOpenAI(
+    params: RequestTranslationParamsInput
+  ): Promise<RequestToProvider | OpenAIRequest>;
 
   translateFromResponse(): any {
     throw new Error("Not implemented");
